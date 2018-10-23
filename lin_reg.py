@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import math
 
-matplotlib.use('TkAgg')   # use for OSX
+# matplotlib.use("TkAgg")   # use for OSX
 
 
 class Theta(object):
@@ -46,20 +46,19 @@ class LinRegression(object):
         self.data = data
 
     def draw_data(self):
-        print("draw_data")
         plt.figure(figsize=(15, 8))
         plt.title("Data")
-        plt.xlabel('Population of City (in 10 000s)')
-        plt.ylabel('Profit ($10.000)')
+        plt.xlabel("Population of City (in 10 000s)")
+        plt.ylabel("Profit ($10.000)")
         plt.grid(False)
         plt.axis([self.X.min()-1, self.X.max() + 1, self.Y.min()-1, self.Y.max() + 1])
         plt.scatter(self.X, self.Y)
 
     def draw_hypoteza(self):
         plt.title("Regression")
-        plt.xlabel('Population of City (in 10 000s)')
-        plt.ylabel('Profit ($10.000)')
-        plt.plot([self.X.min(), self.X.max()], [0, 0], color="g", label='Initial')
+        plt.xlabel("Population of City (in 10 000s)")
+        plt.ylabel("Profit ($10.000)")
+        plt.plot([self.X.min(), self.X.max()], [0, 0], color="g", label="Initial")
         y0 = self.theta.c0 + self.X.min() * self.theta.c1
         y1 = self.theta.c0 + self.X.max() * self.theta.c1
         plt.plot([self.X.min(), self.X.max()], [y0, y1], color="r", label="Final")
@@ -68,8 +67,8 @@ class LinRegression(object):
         plt.figure(figsize=(15, 8))
         plt.grid(True)
         plt.title("Theta")
-        plt.xlabel('C 1')
-        plt.ylabel('C 0')
+        plt.xlabel("C 1")
+        plt.ylabel("C 0")
         cc0 = [c[0] for c in self.thetas]
         cc1 = [c[1] for c in self.thetas]
         plt.plot(cc0, cc1, mew=1, ms=1)
@@ -78,9 +77,18 @@ class LinRegression(object):
         plt.figure(figsize=(15, 8))
         plt.grid(True)
         plt.title("Error")
-        plt.xlabel('Iterace')
-        plt.ylabel('Chyba')
+        plt.xlabel("Iterace")
+        plt.ylabel("Chyba")
         plt.plot(range(self.iteration), self.errors, mew=1, ms=1)
+
+    def draw_normal_eq(self, c0, c1):
+        plt.title("Normal Equation")
+        y0 = c0 + self.X.min() * c1
+        y1 = c0 + self.X.max() * c1
+        plt.plot([self.X.min(), self.X.max()], [y0, y1], color="b", label="Normal Equation")
+        y0 = self.theta.c0 + self.X.min() * self.theta.c1
+        y1 = self.theta.c0 + self.X.max() * self.theta.c1
+        plt.plot([self.X.min(), self.X.max()], [y0, y1], color="r", label="Gradient Descent")
 
     def predict_y(self, x, c0, c1):
         return c0 + x * c1
@@ -148,6 +156,14 @@ class LinRegression(object):
                 # error is higher
                 # decrease step and repeat
                 self.alpha = self.alpha * 0.5
+
+    def compute_normal_eq(self):
+        n = len(self.X)
+        A = np.array([[np.sum(self.X ** 2), np.sum(self.X)], [np.sum(self.X), n]])
+        b = np.array([np.sum([self.X * self.Y]), np.sum(self.Y)])
+        c = np.linalg.solve(A, b)
+        print(f" c1={c[0]}   c0={c[1]} ")
+        return c[1], c[0]
 
 
 if __name__ == "__main__":
