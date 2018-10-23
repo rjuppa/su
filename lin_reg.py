@@ -82,10 +82,10 @@ class LinRegression(object):
         plt.plot(range(self.iteration), self.errors, mew=1, ms=1)
 
     def draw_normal_eq(self, c0, c1):
-        plt.title("Normal Equation")
+        plt.title("Normal Equations")
         y0 = c0 + self.X.min() * c1
         y1 = c0 + self.X.max() * c1
-        plt.plot([self.X.min(), self.X.max()], [y0, y1], color="b", label="Normal Equation")
+        plt.plot([self.X.min(), self.X.max()], [y0, y1], color="b", label="Normal Equations")
         y0 = self.theta.c0 + self.X.min() * self.theta.c1
         y1 = self.theta.c0 + self.X.max() * self.theta.c1
         plt.plot([self.X.min(), self.X.max()], [y0, y1], color="r", label="Gradient Descent")
@@ -162,7 +162,8 @@ class LinRegression(object):
         A = np.array([[np.sum(self.X ** 2), np.sum(self.X)], [np.sum(self.X), n]])
         b = np.array([np.sum([self.X * self.Y]), np.sum(self.Y)])
         c = np.linalg.solve(A, b)
-        print(f" c1={c[0]}   c0={c[1]} ")
+        print(f"Normal Equations: c1={c[0]:0.5f}   c0={c[1]:0.5f} ")
+        print(f"Gradient Descent: c1={self.theta.c1:0.5f}   c0={self.theta.c0:0.5f} ")
         return c[1], c[0]
 
 
