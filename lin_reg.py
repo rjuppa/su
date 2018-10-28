@@ -109,8 +109,7 @@ class LinRegression(object):
 
         c0_grad = c0_grad / float(self.count)
         c1_grad = c1_grad / float(self.count)
-        size = math.sqrt(c0_grad ** 2 + c1_grad ** 2)
-        return c0_grad/size, c1_grad/size   # normalized
+        return c0_grad, c1_grad
 
     def print_row(self, err):
         i = self.iteration
@@ -182,5 +181,8 @@ if __name__ == "__main__":
     reg.draw_hypoteza()
     reg.draw_theta()
     reg.draw_error()
+    c = reg.compute_normal_eq()
+    reg.draw_data()
+    reg.draw_normal_eq(c[0], c[1])
     plt.legend()
     plt.show()
